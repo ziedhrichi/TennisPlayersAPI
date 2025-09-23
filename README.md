@@ -26,13 +26,13 @@ L’API suit une architecture en couches :
 
 📂 TennisPlayerAPI
 
-┣ 📂 Models : Définitions des entités (Player, Match, Ranking...)
+┣ 📂 Models : Définitions des entités.
 
-┣ 📂 Repositories : Accès aux données (ex: PlayerRepository)
+┣ 📂 Repositories : Accès aux données.
 
-┣ 📂 Services : Logique métier (PlayerService)
+┣ 📂 Services : Logique métier.
 
-┣ 📂 Controllers : Endpoints REST exposés (PlayerController)
+┣ 📂 Controllers : Endpoints REST exposés.
 
 ┣ 📂 Security : Sécurité (JWT, Azure KeyVault, authentification)
 

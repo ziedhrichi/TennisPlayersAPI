@@ -46,4 +46,9 @@
         public required PlayerData Data { get; set; }
 
     }
+
+    public class Root
+    {
+        public List<Player> Players { get; set; }
+    }
 }

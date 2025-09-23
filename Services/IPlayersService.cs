@@ -1,6 +1,11 @@
-﻿namespace TennisPlayersAPI.Services
+﻿using TennisPlayersAPI.Models;
+
+namespace TennisPlayersAPI.Services
 {
-    interface IPlayersService
+    public interface IPlayersService
     {
+        IEnumerable<Player> GetTopPlayers(int n);
+
+        Player GetPlayerById(int id);
     }
 }

@@ -1,6 +1,12 @@
-﻿namespace TennisPlayersAPI.Repositories
+﻿using TennisPlayersAPI.Models;
+
+namespace TennisPlayersAPI.Repositories
 {
-    interface IPlayerRepository
+    internal interface IPlayerRepository
     {
+        IEnumerable<Player> GetAll();
+
+        Player GetById(int id);
+
     }
 }
