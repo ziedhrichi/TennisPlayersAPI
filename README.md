@@ -52,3 +52,5 @@ L’API suit une architecture en couches :
 - Utilisation d’Azure KeyVault pour sécuriser les secrets
 - Documentation avec Swagger
 
+## 🔧 Installation en local & Lancement (via Postman ou navigateur)
+
