@@ -64,7 +64,6 @@ L’API suit une architecture en couches :
 | PUT     | /TennisPlayers/{id}        | Mettre à jour un joueur existant|
 | DELETE  | /TennisPlayers/{id}        | Supprimer un joueur             |
 
----
 
 ## 📖 Documentation Swagger
 
