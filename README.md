@@ -66,10 +66,15 @@ L’API suit une architecture en couches :
 
 ---
 
+## 📖 Documentation Swagger
+
+Tu peux accéder à la documentation interactive Swagger ici :  
+https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
+
 ## ⚡ Tester l’API
 
 Tu peux tester l’API avec :  
-- **Swagger UI** (recommandé) : `/index.html`  
+- **Swagger UI** (recommandé) 
 - **Postman** ou **curl** :
 ```bash
 curl https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/TennisPlayers
