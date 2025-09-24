@@ -69,7 +69,7 @@ L’API suit une architecture en couches :
 ## ⚡ Tester l’API
 
 Tu peux tester l’API avec :  
-- **Swagger UI** (recommandé) : `/swagger`  
+- **Swagger UI** (recommandé) : `/index.html`  
 - **Postman** ou **curl** :
 ```bash
 curl https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/TennisPlayers
