@@ -34,6 +34,8 @@ L’API suit une architecture en couches :
 
 ┣ 📂 Controllers : Endpoints REST exposés.
 
+┣ 📂 Exceptions : Les Exceptions.
+
 ┣ 📂 Security : Sécurité (JWT, Azure KeyVault, authentification)
 
 ┣ 📂 Config : Configuration & injection de dépendances
