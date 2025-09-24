@@ -1,4 +1,5 @@
-﻿using TennisPlayersAPI.Models;
+﻿using TennisPlayersAPI.Exceptions;
+using TennisPlayersAPI.Models;
 using TennisPlayersAPI.Repositories;
 
 namespace TennisPlayersAPI.Services
@@ -18,20 +19,12 @@ namespace TennisPlayersAPI.Services
         /// <returns></returns>
         public IEnumerable<Player> GetAllPlayers()
         {
-            return _repo.GetAll()
-                        .OrderBy(p => p.Data.Rank);
-        }
+            var players = _repo.GetAll() ?? throw PlayerException.NoPlayersFound();
 
-        /// <summary>
-        /// Retourner Top de 'n' players de tennis
-        /// </summary>
-        /// <param name="number">nombre </param>
-        /// <returns></returns>
-        public IEnumerable<Player> GetTopPlayers(int number)
-        {
-            return _repo.GetAll()
-                        .OrderBy(p => p.Data.Rank)
-                        .Take(number);
+            if (!players.Any())
+                throw PlayerException.NoPlayersFound();
+
+            return players.OrderBy(p => p.Data.Rank);
         }
 
         /// <summary>
@@ -39,14 +32,31 @@ namespace TennisPlayersAPI.Services
         /// </summary>
         /// <param name="id">Identifiant</param>
         /// <returns></returns>
-        public Player GetPlayerById(int id) => _repo.GetById(id);
+        public Player GetPlayerById(int id)
+        {
+            var player = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            return player;
+        }
 
         /// <summary>
         /// Ajouter un joueur de tennis dans la liste des joueurs
         /// </summary>
         /// <param name="player">Objet joueur</param>
         /// <returns></returns>
-        public Player AddPlayer(Player player) => _repo.Add(player);
+        public Player AddPlayer(Player player)
+        {
+            if (_repo.GetAll().Any(p => p.Id == player.Id))
+                throw PlayerException.AlreadyExists(player.Id);
+
+            try
+            {
+                return _repo.Add(player);
+            }
+            catch (Exception ex)
+            {
+                throw PlayerException.CreationFailed(ex.Message);
+            }
+        }
 
         /// <summary>
         /// Modifier un joueur de tennis dans la liste des joueurs
@@ -54,15 +64,36 @@ namespace TennisPlayersAPI.Services
         /// <param name="id">Identifiant de joueur à modifier</param>
         /// <param name="newPlayer">le nouveau joueur rempplacé</param>
         /// <returns></returns>
-        public Player UpdatePlayer(int id, Player newPlayer) => _repo.Update(id, newPlayer);
+        public Player UpdatePlayer(int id, Player newPlayer)
+        {
+            var existing =_repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            try
+            {
+                return _repo.Update(id, newPlayer);
+            }
+            catch (Exception ex)
+            {
+                throw PlayerException.UpdateFailed(id, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Supprimer un joueur de Tennis
         /// </summary>
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>bool: False ou True</returns>
-        public bool DeletePlayer(int id) => _repo.Delete(id);
-
+        public bool DeletePlayer(int id)
+        {
+            var existing = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            try
+            {
+                return _repo.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw PlayerException.DeletionFailed(id, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Statistiques sur les joueurs

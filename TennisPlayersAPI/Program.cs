@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using TennisPlayersAPI.Exceptions;
 using TennisPlayersAPI.Repositories;
 using TennisPlayersAPI.Services;
 
@@ -63,6 +64,9 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Activé le middleware d'exception
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

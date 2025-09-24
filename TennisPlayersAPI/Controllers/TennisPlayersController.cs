@@ -4,7 +4,9 @@ using TennisPlayersAPI.Services;
 
 namespace TennisPlayersAPI.Controllers
 {
-
+    /// <summary>
+    /// Class controlleur de joueur de tennis
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class TennisPlayersController : ControllerBase

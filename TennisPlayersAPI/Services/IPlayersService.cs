@@ -11,13 +11,6 @@ namespace TennisPlayersAPI.Services
         IEnumerable<Player> GetAllPlayers();
 
         /// <summary>
-        /// Retourner Top de 'n' players de tennis
-        /// </summary>
-        /// <param name="number">nombre </param>
-        /// <returns></returns>
-        IEnumerable<Player> GetTopPlayers(int number);
-
-        /// <summary>
         /// Recherche d'un joueur de tennis par son identifiant
         /// </summary>
         /// <param name="id">Identifiant</param>
