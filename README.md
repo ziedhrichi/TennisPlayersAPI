@@ -48,12 +48,14 @@ L’API suit une architecture en couches :
 
 ## ✅ Bonnes pratiques
 
-- Respecter le pattron de conception Repository - Service - Controller
+- Respecter le pattron de conception Repository
 - Appliquer le principe de SOLID
 - Commenter le code source
 - Séparation des responsabilités
 - Tests unitaires pour la logique métier
-- Utilisation d’Azure KeyVault pour sécuriser les secrets
+- Tests d'integration pour vérifier que les différentes couches (contrôleurs, services, repositories, base de données, authentification, etc.) fonctionnent correctement ensemble dans un scénario réel ou quasi-réel.
+- Utilisation JWT pour sécuriser les secrets
+- Déploiement et intégration continue via GitHub Actions, Azure App Service et le pipline CI/CD
 - Documentation avec Swagger
   
 ---
@@ -66,7 +68,7 @@ Le pipeline CI/CD exécute plusieurs étapes clés pour garantir la qualité et 
 - Récupération du code → téléchargement automatique du code source depuis GitHub.
 - Configuration de l’environnement .NET → installation du SDK .NET Core nécessaire.
 - Compilation → construction du projet avec dotnet build.
-- Tests unitaires → exécution automatique des tests avec dotnet test.
+- Tests unitaires et integration → exécution automatique des tests avec dotnet test.
   Si un test échoue, le déploiement est bloqué.
 - Publication → génération d’un package optimisé via dotnet publish.
 - Création d’artefacts → préparation des fichiers publiés pour le déploiement.
@@ -89,6 +91,7 @@ https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
 |---------|----------------------------|---------------------------------|
 | GET     | /TennisPlayers             | Récupérer tous les joueurs      |
 | GET     | /TennisPlayers/{id}        | Récupérer un joueur par ID      |
+| GET     | /TennisPlayers/statistics  | Statiques sur les joueurs       |
 | POST    | /TennisPlayers             | Créer un nouveau joueur         |
 | PUT     | /TennisPlayers/{id}        | Mettre à jour un joueur existant|
 | DELETE  | /TennisPlayers/{id}        | Supprimer un joueur             |
