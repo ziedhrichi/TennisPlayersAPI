@@ -12,10 +12,12 @@ namespace TennisPlayersAPI.Controllers
     public class TennisPlayersController : ControllerBase
     {
         private readonly IPlayersService _service;
+        private readonly ILogger<TennisPlayersController> _logger;
 
-        public TennisPlayersController(IPlayersService service)
+        public TennisPlayersController(IPlayersService service, ILogger<TennisPlayersController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         /// <summary>
@@ -36,8 +38,12 @@ namespace TennisPlayersAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetPlayer(int id)
         {
+            _logger.LogInformation("Recherche du joueur avec ID {PlayerId}", id);
+
             var player = _service.GetPlayerById(id);
             if (player == null) return NotFound();
+
+            _logger.LogInformation("Joueur trouvé : {@Player}", player);
             return Ok(player);
         }
 

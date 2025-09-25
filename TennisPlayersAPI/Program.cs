@@ -1,11 +1,23 @@
 using Microsoft.OpenApi.Models;
+using Serilog;
 using TennisPlayersAPI.Data;
 using TennisPlayersAPI.Exceptions;
+using TennisPlayersAPI.Logs;
 using TennisPlayersAPI.Repositories;
 using TennisPlayersAPI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuration Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/tennisplayer-.log", rollingInterval: RollingInterval.Day)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 
@@ -51,6 +63,8 @@ builder.Services.AddScoped<IPlayersService, PlayersService>();
 
 var app = builder.Build();
 
+// Middleware pour logging 
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
