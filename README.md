@@ -80,8 +80,11 @@ Grâce à ce pipeline, chaque commit sur la branche principale est testé, valid
 
 ## 📖 Documentation Swagger
 
-Tu peux accéder à la documentation interactive Swagger ici :  
+Tu peux accéder à la documentation interactive Swagger ici : 
+
+```bash
 https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
+```
 
 ---
 
