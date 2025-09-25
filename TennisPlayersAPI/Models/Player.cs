@@ -13,17 +13,17 @@
         /// <summary>
         /// Prénom de joueur
         /// </summary>
-        public required string Firstname { get; set; }
+        public required string FirstName { get; set; }
 
         /// <summary>
         /// Nom de joueur
         /// </summary>
-        public required string Lastname { get; set; }
+        public required string LastName { get; set; }
 
         /// <summary>
         /// Nom utilisé de joueur
         /// </summary>
-        public string? Shortname { get; set; }
+        public string? ShortName { get; set; }
 
         /// <summary>
         /// Sexe de joueur
