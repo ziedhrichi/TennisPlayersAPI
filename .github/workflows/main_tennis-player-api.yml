@@ -26,6 +26,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: dotnet TennisPlayersAPI.UnitTests/TennisPlayersAPI.UnitTests.csproj
+        run: 'Run unit tests'
+
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
@@ -62,4 +65,5 @@ jobs:
           app-name: 'tennis-player-api'
           slot-name: 'Production'
           package: .
+
           
