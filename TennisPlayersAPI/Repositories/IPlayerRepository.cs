@@ -2,7 +2,7 @@
 
 namespace TennisPlayersAPI.Repositories
 {
-    internal interface IPlayerRepository
+    public interface IPlayerRepository
     {
         /// <summary>
         /// Retourner tous les joueurs de tennis
