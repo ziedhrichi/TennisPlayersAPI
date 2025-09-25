@@ -55,6 +55,33 @@ L’API suit une architecture en couches :
 - Tests unitaires pour la logique métier
 - Utilisation d’Azure KeyVault pour sécuriser les secrets
 - Documentation avec Swagger
+  
+---
+
+## 🚀 Déploiement & Intégration Continue
+
+Ce projet est entièrement automatisé via GitHub Actions et Azure App Service.
+Le pipeline CI/CD exécute plusieurs étapes clés pour garantir la qualité et la fiabilité du déploiement :
+
+- Récupération du code → téléchargement automatique du code source depuis GitHub.
+- Configuration de l’environnement .NET → installation du SDK .NET Core nécessaire.
+- Compilation → construction du projet avec dotnet build.
+- Tests unitaires → exécution automatique des tests avec dotnet test.
+  Si un test échoue, le déploiement est bloqué.
+- Publication → génération d’un package optimisé via dotnet publish.
+- Création d’artefacts → préparation des fichiers publiés pour le déploiement.
+- Déploiement Azure → livraison de l’API directement sur Azure App Service.
+
+Grâce à ce pipeline, chaque commit sur la branche principale est testé, validé et déployé automatiquement
+
+---
+
+## 📖 Documentation Swagger
+
+Tu peux accéder à la documentation interactive Swagger ici :  
+https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
+
+---
 
 ## 🛠️ Endpoints principaux
 
@@ -66,11 +93,7 @@ L’API suit une architecture en couches :
 | PUT     | /TennisPlayers/{id}        | Mettre à jour un joueur existant|
 | DELETE  | /TennisPlayers/{id}        | Supprimer un joueur             |
 
-
-## 📖 Documentation Swagger
-
-Tu peux accéder à la documentation interactive Swagger ici :  
-https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
+---
 
 ## ⚡ Tester l’API
 
