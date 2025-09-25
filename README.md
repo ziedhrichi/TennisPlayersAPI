@@ -26,6 +26,8 @@ L’API suit une architecture en couches :
 
 📂 TennisPlayerAPI
 
+┣ 📂 Data : Source de donnée (Json file dans notre cas).
+
 ┣ 📂 Models : Définitions des entités.
 
 ┣ 📂 Repositories : Accès aux données.
@@ -36,7 +38,7 @@ L’API suit une architecture en couches :
 
 ┣ 📂 Exceptions : Les Exceptions.
 
-┣ 📂 Security : Sécurité (JWT, Azure KeyVault, authentification)
+┣ 📂 Security : Sécurité (JWT dans notre cas)
 
 ┣ 📂 Config : Configuration & injection de dépendances
 
