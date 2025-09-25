@@ -1,7 +1,9 @@
 using Microsoft.OpenApi.Models;
+using TennisPlayersAPI.Data;
 using TennisPlayersAPI.Exceptions;
 using TennisPlayersAPI.Repositories;
 using TennisPlayersAPI.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddScoped<IFileSystem, RealFileSystem>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayersService, PlayersService>();
 
@@ -69,3 +72,5 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
