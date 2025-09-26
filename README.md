@@ -60,6 +60,22 @@ L’API suit une architecture en couches :
   
 ---
 
+## 🧪 Stratégie de Tests
+
+- **Unitaires** → test de la logique métier (Services, Repositories)  
+- **Intégration** → validation des endpoints via un serveur de test .NET  
+- **CI/CD** → tous les tests sont exécutés automatiquement avant chaque déploiement
+
+---
+
+## 📊 Observabilité & Logging
+
+- **Logging** centralisé avec Serilog (console + fichiers + Azure Application Insights)
+- **Monitoring** via Azure Monitor pour suivre les performances et erreurs
+- Middleware de logging HTTP pour tracer chaque appel
+
+---
+
 ## 🚀 Déploiement & Intégration Continue
 
 Ce projet est entièrement automatisé via GitHub Actions et Azure App Service.
@@ -75,6 +91,17 @@ Le pipeline CI/CD exécute plusieurs étapes clés pour garantir la qualité et 
 - Déploiement Azure → livraison de l’API directement sur Azure App Service.
 
 Grâce à ce pipeline, chaque commit sur la branche principale est testé, validé et déployé automatiquement
+
+---
+
+## 🧰 Stack Technique
+
+- **Langage & Framework** : C# / .NET 8
+- **Sécurité** : JWT, Azure KeyVault
+- **Tests** : xUnit, Moq
+- **CI/CD** : GitHub Actions, Azure App Service
+- **Documentation** : Swagger / OpenAPI
+- **Logs & Monitoring** : Serilog, Azure Monitor (optionnel)
 
 ---
 
@@ -107,3 +134,16 @@ Tu peux tester l’API avec :
 ```bash
 curl https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/TennisPlayers
 
+```
+
+---
+
+## 🔮 Améliorations Futures
+
+- Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
+- Mise en cache des statistiques avec Redis
+- Ajout de tests de performance (ex : k6, JMeter)
+- Gestion avancée des rôles et permissions (RBAC)
+- Documentation Postman collection exportée
+
+---
