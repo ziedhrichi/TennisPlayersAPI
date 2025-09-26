@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TennisPlayersAPI.Models;
 using TennisPlayersAPI.Services;
@@ -8,7 +9,8 @@ namespace TennisPlayersAPI.Controllers
     /// Class controlleur de joueur de tennis
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Authorize]
     public class TennisPlayersController : ControllerBase
     {
         private readonly IPlayersService _service;
@@ -79,6 +81,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>bool: False ou True</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeletePlayer(int id)
         {
             var deleted = _service.DeletePlayer(id);

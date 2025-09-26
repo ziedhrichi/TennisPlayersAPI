@@ -1,36 +1,10 @@
 {
   "Players": [
     {
-      "Id": 52,
-      "Firstname": "Novak",
-      "Lastname": "Djokovic",
-      "Shortname": "N.DJO",
-      "Sex": "M",
-      "Country": {
-        "Picture": "https://tenisu.latelier.co/resources/Serbie.png",
-        "Code": "SRB"
-      },
-      "Picture": "https://tenisu.latelier.co/resources/Djokovic.png",
-      "Data": {
-        "Rank": 2,
-        "Points": 2542,
-        "Weight": 80000,
-        "Height": 188,
-        "Age": 31,
-        "Last": [
-          1,
-          1,
-          1,
-          1,
-          1
-        ]
-      }
-    },
-    {
       "Id": 95,
-      "Firstname": "Venus",
-      "Lastname": "Williams",
-      "Shortname": "V.WIL",
+      "FirstName": "Venus",
+      "LastName": "Williams",
+      "ShortName": "V.WIL",
       "Sex": "F",
       "Country": {
         "Picture": "https://tenisu.latelier.co/resources/USA.png",
@@ -54,9 +28,9 @@
     },
     {
       "Id": 65,
-      "Firstname": "Stan",
-      "Lastname": "Wawrinka",
-      "Shortname": "S.WAW",
+      "FirstName": "Stan",
+      "LastName": "Wawrinka",
+      "ShortName": "S.WAW",
       "Sex": "M",
       "Country": {
         "Picture": "https://tenisu.latelier.co/resources/Suisse.png",
@@ -80,9 +54,9 @@
     },
     {
       "Id": 102,
-      "Firstname": "Serena",
-      "Lastname": "Williams",
-      "Shortname": "S.WIL",
+      "FirstName": "Serena",
+      "LastName": "Williams",
+      "ShortName": "S.WIL",
       "Sex": "F",
       "Country": {
         "Picture": "https://tenisu.latelier.co/resources/USA.png",
@@ -101,32 +75,6 @@
           1,
           1,
           0
-        ]
-      }
-    },
-    {
-      "Id": 17,
-      "Firstname": "Rafael",
-      "Lastname": "Nadal",
-      "Shortname": "R.NAD",
-      "Sex": "M",
-      "Country": {
-        "Picture": "https://tenisu.latelier.co/resources/Espagne.png",
-        "Code": "ESP"
-      },
-      "Picture": "https://tenisu.latelier.co/resources/Nadal.png",
-      "Data": {
-        "Rank": 1,
-        "Points": 1982,
-        "Weight": 85000,
-        "Height": 185,
-        "Age": 33,
-        "Last": [
-          1,
-          0,
-          0,
-          0,
-          1
         ]
       }
     }

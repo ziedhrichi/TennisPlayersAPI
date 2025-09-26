@@ -83,7 +83,7 @@ RBAC (Role-Based Access Control) est un système qui définit qui peut faire quo
 - 👤 User → peut consulter les joueurs (GET)
 - 📝 Editor → peut aussi modifier un joueur (POST, PUT)
 - 👑 Admin → peut supprimer un joueur (DELETE) et gérer les utilisateurs
-- 
+
 👉 Ça permet d’éviter qu’un simple utilisateur ait accès à des actions critiques (ex: supprimer un joueur).
 
 ---
