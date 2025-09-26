@@ -1,7 +1,7 @@
 # 🎾 Tennis Player API
 
 Une API RESTful permettant de gérer et consulter des informations sur des joueurs de tennis.  
-Le projet est conçu en **C# / .NET** avec une architecture claire (Model - Repository - Service - Controller) et des principes de sécurité intégrés (KeyVault, gestion des secrets, authentification).                       
+Le projet est conçu en **C# / .NET** avec une architecture claire (Model - Repository - Service - Controller) et des principes de sécurité intégrés.                       
 
 ---
 
@@ -174,7 +174,6 @@ L’API utilise un système de **rôles** pour restreindre l’accès :
   - Peut créer et modifier (`POST`, `PUT`)
 - 👑 **Admin**
   - A tous les droits (`GET`, `POST`, `PUT`, `DELETE`)
-  - Peut gérer les utilisateurs
 
 -----
 
@@ -238,6 +237,7 @@ curl -X GET https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azureweb
 
 - Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
 - Implementer la securité avec Azure key vault
+- Gestion des utilisateurs avec base de donnée pour les roles de la partie securité
 - Mise en cache des statistiques avec Redis
 - Ajout de tests de performance (ex : k6, JMeter)
 - Documentation Postman collection exportée
