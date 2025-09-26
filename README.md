@@ -109,11 +109,11 @@ Grâce à ce pipeline, chaque commit sur la branche principale est testé, valid
 ## 🧰 Stack Technique
 
 - **Langage & Framework** : C# / .NET 8
-- **Sécurité** : JWT, Azure KeyVault
+- **Sécurité** : JWT
 - **Tests** : xUnit, Moq
 - **CI/CD** : GitHub Actions, Azure App Service
 - **Documentation** : Swagger / OpenAPI
-- **Logs & Monitoring** : Serilog, Azure Monitor
+- **Logs & Monitoring** : Serilog
 
 ---
 
@@ -141,21 +141,73 @@ https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
 ## ⚡ Tester l’API
 
 Tu peux tester l’API avec :  
-- **Swagger UI** (recommandé) 
-- **Postman** ou **curl** :
-```bash
-curl https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/TennisPlayers
 
-```
+- **Swagger** : [Swagger](https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/)  
+- **Authentification** : JWT Bearer Token  
+
+-----
+
+### 🔑 Étapes pour tester avec JWT dans Swagger
+
+1. **Obtenir un token**
+   - Dans Swagger, appelle l’endpoint :
+     ```
+     POST /api/Auth/login
+     ```
+   - Exemple de body :
+     ```json
+     {
+       "username": "admin",
+       "password": "1234"
+     }
+     ```
+   - Réponse :
+     ```json
+     {
+       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+     }
+     ```
+
+2. **Configurer Swagger pour utiliser le token**
+   - Clique sur le bouton **Authorize** (en haut à droite dans Swagger).  
+   - Saisis le token sous la forme :
+     ```
+     Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...
+     ```
+   - Valide.  
+
+3. **Appeler les endpoints sécurisés**
+   - Les endpoints comme :
+     - `GET /api/TennisPlayers`
+     - `POST /api/TennisPlayers`
+     - `PUT /api/TennisPlayers/{id}`
+     - `DELETE /api/TennisPlayers/{id}`
+     
+     nécessitent un utilisateur authentifié avec le rôle `admin`.  
+   - Une fois le token ajouté, tu peux tester normalement.  
+
+-----
+
+### 📚 Exemple rapide avec `curl`
+
+```bash
+# Login pour obtenir un token
+curl -X POST https://monapi.azurewebsites.net/api/Auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "1234"}'
+
+# Utiliser le token pour accéder aux joueurs
+curl -X GET https://monapi.azurewebsites.net/api/TennisPlayers \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6..."
 
 ---
 
 ## 🔮 Améliorations Futures
 
 - Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
+- Ajouter Azur key vault
 - Mise en cache des statistiques avec Redis
 - Ajout de tests de performance (ex : k6, JMeter)
-- Gestion avancée des rôles et permissions (RBAC)
 - Documentation Postman collection exportée
 
 ---
