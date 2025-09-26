@@ -52,8 +52,8 @@ L’API suit une architecture en couches :
 - Appliquer le principe de SOLID
 - Commenter le code source
 - Séparation des responsabilités
-- Tests unitaires pour la logique métier
-- Tests d'integration pour vérifier que les différentes couches (contrôleurs, services, repositories, base de données, authentification, etc.) fonctionnent correctement ensemble dans un scénario réel ou quasi-réel.
+- Tests unitaires
+- Tests d'integration
 - Utilisation JWT pour sécuriser les secrets
 - Déploiement et intégration continue via GitHub Actions, Azure App Service et le pipline CI/CD
 - Documentation avec Swagger
@@ -73,6 +73,18 @@ L’API suit une architecture en couches :
 - **Logging** centralisé avec Serilog (console + fichiers + Azure Application Insights)
 - **Monitoring** via Azure Monitor pour suivre les performances et erreurs
 - Middleware de logging HTTP pour tracer chaque appel
+
+---
+
+## 🔐 Gestion avancée des rôles et permissions (RBAC)
+
+RBAC (Role-Based Access Control) est un système qui définit qui peut faire quoi dans ton API, en fonction de son rôle.
+
+- 👤 User → peut consulter les joueurs (GET)
+- 📝 Editor → peut aussi modifier un joueur (POST, PUT)
+- 👑 Admin → peut supprimer un joueur (DELETE) et gérer les utilisateurs
+- 
+👉 Ça permet d’éviter qu’un simple utilisateur ait accès à des actions critiques (ex: supprimer un joueur).
 
 ---
 
@@ -101,7 +113,7 @@ Grâce à ce pipeline, chaque commit sur la branche principale est testé, valid
 - **Tests** : xUnit, Moq
 - **CI/CD** : GitHub Actions, Azure App Service
 - **Documentation** : Swagger / OpenAPI
-- **Logs & Monitoring** : Serilog, Azure Monitor (optionnel)
+- **Logs & Monitoring** : Serilog, Azure Monitor
 
 ---
 
