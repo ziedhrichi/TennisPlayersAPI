@@ -27,6 +27,7 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Liste des joueurs de Tennis</returns>
         [HttpGet]
+        [Authorize(Roles = "User,Editor,Admin")]
         public IActionResult GetPlayers()
         {
             return Ok(_service.GetAllPlayers());
@@ -38,6 +39,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>Joueur de tennis</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "User,Editor,Admin")]
         public IActionResult GetPlayer(int id)
         {
             _logger.LogInformation("Recherche du joueur avec ID {PlayerId}", id);
@@ -55,6 +57,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="player">Objet joueur</param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "Editor,Admin")]
         public IActionResult AddPlayer([FromBody] Player player)
         {
             var created = _service.AddPlayer(player);
@@ -68,6 +71,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="player">le nouveau joueur rempplacé</param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Editor,Admin")]
         public IActionResult UpdatePlayer(int id, [FromBody] Player player)
         {
             var updated = _service.UpdatePlayer(id, player);
@@ -81,7 +85,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>bool: False ou True</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeletePlayer(int id)
         {
             var deleted = _service.DeletePlayer(id);
@@ -97,6 +101,7 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Un objet statistique</returns>
         [HttpGet("statistics")]
+        [Authorize(Roles = "User,Editor,Admin")]
         public IActionResult GetStatistics()
         {
             var stats = _service.GetStats();
