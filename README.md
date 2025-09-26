@@ -52,12 +52,40 @@ L’API suit une architecture en couches :
 - Appliquer le principe de SOLID
 - Commenter le code source
 - Séparation des responsabilités
-- Tests unitaires pour la logique métier
-- Tests d'integration pour vérifier que les différentes couches (contrôleurs, services, repositories, base de données, authentification, etc.) fonctionnent correctement ensemble dans un scénario réel ou quasi-réel.
+- Tests unitaires
+- Tests d'integration
 - Utilisation JWT pour sécuriser les secrets
 - Déploiement et intégration continue via GitHub Actions, Azure App Service et le pipline CI/CD
 - Documentation avec Swagger
   
+---
+
+## 🧪 Stratégie de Tests
+
+- **Unitaires** → test de la logique métier (Services, Repositories)  
+- **Intégration** → validation des endpoints via un serveur de test .NET  
+- **CI/CD** → tous les tests sont exécutés automatiquement avant chaque déploiement
+
+---
+
+## 📊 Observabilité & Logging
+
+- **Logging** centralisé avec Serilog (console + fichiers + Azure Application Insights)
+- **Monitoring** via Azure Monitor pour suivre les performances et erreurs
+- Middleware de logging HTTP pour tracer chaque appel
+
+---
+
+## 🔐 Gestion avancée des rôles et permissions (RBAC)
+
+RBAC (Role-Based Access Control) est un système qui définit qui peut faire quoi dans ton API, en fonction de son rôle.
+
+- 👤 User → peut consulter les joueurs (GET)
+- 📝 Editor → peut aussi modifier un joueur (POST, PUT)
+- 👑 Admin → peut supprimer un joueur (DELETE) et gérer les utilisateurs
+
+👉 Ça permet d’éviter qu’un simple utilisateur ait accès à des actions critiques (ex: supprimer un joueur).
+
 ---
 
 ## 🚀 Déploiement & Intégration Continue
@@ -75,6 +103,17 @@ Le pipeline CI/CD exécute plusieurs étapes clés pour garantir la qualité et 
 - Déploiement Azure → livraison de l’API directement sur Azure App Service.
 
 Grâce à ce pipeline, chaque commit sur la branche principale est testé, validé et déployé automatiquement
+
+---
+
+## 🧰 Stack Technique
+
+- **Langage & Framework** : C# / .NET 8
+- **Sécurité** : JWT, Azure KeyVault
+- **Tests** : xUnit, Moq
+- **CI/CD** : GitHub Actions, Azure App Service
+- **Documentation** : Swagger / OpenAPI
+- **Logs & Monitoring** : Serilog, Azure Monitor
 
 ---
 
@@ -107,3 +146,16 @@ Tu peux tester l’API avec :
 ```bash
 curl https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/TennisPlayers
 
+```
+
+---
+
+## 🔮 Améliorations Futures
+
+- Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
+- Mise en cache des statistiques avec Redis
+- Ajout de tests de performance (ex : k6, JMeter)
+- Gestion avancée des rôles et permissions (RBAC)
+- Documentation Postman collection exportée
+
+---
