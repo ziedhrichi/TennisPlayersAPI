@@ -76,18 +76,6 @@ L’API suit une architecture en couches :
 
 ---
 
-## 🔐 Gestion avancée des rôles et permissions (RBAC)
-
-RBAC (Role-Based Access Control) est un système qui définit qui peut faire quoi dans ton API, en fonction de son rôle.
-
-- 👤 User → peut consulter les joueurs (GET)
-- 📝 Editor → peut aussi modifier un joueur (POST, PUT)
-- 👑 Admin → peut supprimer un joueur (DELETE) et gérer les utilisateurs
-
-👉 Ça permet d’éviter qu’un simple utilisateur ait accès à des actions critiques (ex: supprimer un joueur).
-
----
-
 ## 🚀 Déploiement & Intégration Continue
 
 Ce projet est entièrement automatisé via GitHub Actions et Azure App Service.
@@ -127,14 +115,42 @@ https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/
 
 ## 🛠️ Endpoints principaux
 
-| Méthode | Endpoint                   | Description                     |
-|---------|----------------------------|---------------------------------|
-| GET     | /TennisPlayers             | Récupérer tous les joueurs      |
-| GET     | /TennisPlayers/{id}        | Récupérer un joueur par ID      |
-| GET     | /TennisPlayers/statistics  | Statiques sur les joueurs       |
-| POST    | /TennisPlayers             | Créer un nouveau joueur         |
-| PUT     | /TennisPlayers/{id}        | Mettre à jour un joueur existant|
-| DELETE  | /TennisPlayers/{id}        | Supprimer un joueur             |
+| Méthode | Endpoint                      | Description                     |
+|---------|-------------------------------|---------------------------------|
+| GET     | api/TennisPlayers             | Récupérer tous les joueurs      |
+| GET     | api/TennisPlayers/{id}        | Récupérer un joueur par ID      |
+| GET     | api/TennisPlayers/statistics  | Statiques sur les joueurs       |
+| POST    | api/TennisPlayers             | Créer un nouveau joueur         |
+| PUT     | api/TennisPlayers/{id}        | Mettre à jour un joueur existant|
+| DELETE  | api/TennisPlayers/{id}        | Supprimer un joueur             |
+
+---
+
+## 🔐 Authentification & Rôles
+
+L’API utilise **JSON Web Tokens (JWT)** pour sécuriser l’accès.  
+Lors de la connexion (`/api/Auth/login`), un token est généré avec un rôle associé.
+
+### Comptes de test disponibles
+
+| Username | Password | Rôle   | Droits |
+|----------|----------|--------|--------|
+| `user`   | `1234`   | User 👤   | Lecture uniquement |
+| `editor` | `1234`   | Editor 📝 | Lecture + Création + Modification |
+| `admin`  | `1234`   | Admin 👑  | Lecture + Création + Modification + Suppression |
+
+---
+
+## 🗂️ Endpoints et rôles associés
+
+| Endpoint                           | User 👤 | Editor 📝 | Admin 👑 |
+|------------------------------------|---------|-----------|----------|
+| `GET /api/TennisPlayers`           | ✅      | ✅        | ✅       |
+| `GET /api/TennisPlayers/{id}`      | ✅      | ✅        | ✅       |
+| `POST /api/TennisPlayers`          | ❌      | ✅        | ✅       |
+| `PUT /api/TennisPlayers/{id}`      | ❌      | ✅        | ✅       |
+| `DELETE /api/TennisPlayers/{id}`   | ❌      | ❌        | ✅       |
+| `GET /api/TennisPlayers/statistics`| ✅      | ✅        | ✅       |
 
 ---
 
@@ -144,6 +160,21 @@ Tu peux tester l’API avec :
 
 - **Swagger** : [Swagger](https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/)  
 - **Authentification** : JWT Bearer Token  
+
+-----
+
+## 🔑 Gestion des rôles
+
+L’API utilise un système de **rôles** pour restreindre l’accès :
+
+- 👤 **User**
+  - Peut consulter les joueurs (`GET`)
+- 📝 **Editor**
+  - Peut consulter (`GET`)
+  - Peut créer et modifier (`POST`, `PUT`)
+- 👑 **Admin**
+  - A tous les droits (`GET`, `POST`, `PUT`, `DELETE`)
+  - Peut gérer les utilisateurs
 
 -----
 
@@ -192,20 +223,21 @@ Tu peux tester l’API avec :
 
 ```bash
 # Login pour obtenir un token
-curl -X POST https://monapi.azurewebsites.net/api/Auth/login \
+curl -X POST https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/api/Auth/login \
   -H "Content-Type: application/json" \
   -d '{"username": "admin", "password": "1234"}'
 
 # Utiliser le token pour accéder aux joueurs
-curl -X GET https://monapi.azurewebsites.net/api/TennisPlayers \
+curl -X GET https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/api/TennisPlayers \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6..."
 
+```
 ---
 
 ## 🔮 Améliorations Futures
 
 - Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
-- Ajouter Azur key vault
+- Implementer la securité avec Azure key vault
 - Mise en cache des statistiques avec Redis
 - Ajout de tests de performance (ex : k6, JMeter)
 - Documentation Postman collection exportée

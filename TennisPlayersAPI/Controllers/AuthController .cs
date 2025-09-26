@@ -21,12 +21,6 @@ namespace TennisPlayersAPI.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            // Vérification basique (exemple seulement)
-            if (request.Username != "admin" || request.Password != "1234")
-                return Unauthorized();
-
-            //var jwtKey = _config["JwtSecret"] ?? "dev-secret-change-me";
-
             var jwtKey = _config["Jwt:Key"];
             var issuer = _config["Jwt:Issuer"];
             var audience = _config["Jwt:Audience"];
@@ -34,11 +28,31 @@ namespace TennisPlayersAPI.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            string role;
+
+            // 🎯 Vérification simple (exemple en dur)
+            if (request.Username == "admin" && request.Password == "1234")
+            {
+                role = "Admin";
+            }
+            else if (request.Username == "editor" && request.Password == "1234")
+            {
+                role = "Editor";
+            }
+            else if (request.Username == "user" && request.Password == "1234")
+            {
+                role = "User";
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, request.Username),
-             new Claim(ClaimTypes.Role, "admin")
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, request.Username),
+        new Claim(ClaimTypes.Role, role)
+    };
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
@@ -48,7 +62,7 @@ namespace TennisPlayersAPI.Controllers
                 signingCredentials: creds
             );
 
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), role });
         }
     }
 }

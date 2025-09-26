@@ -39,7 +39,7 @@ namespace TennisPlayersAPI.IntegrationTests
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, "admin"),
-            new Claim(ClaimTypes.Role, "admin")
+            new Claim(ClaimTypes.Role, "Admin")
         };
 
             var token = new JwtSecurityToken(
