@@ -7,21 +7,21 @@ namespace TennisPlayersAPI.Repositories
         /// <summary>
         /// Retourner tous les joueurs de tennis
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Liste des joueurs</returns>
         IEnumerable<Player> GetAll();
 
         /// <summary>
         /// Trouver un joueur de tennis par son identifiant
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Le joueur trouvé</returns>
         Player GetById(int id);
 
         /// <summary>
         /// Ajouter un joueur de tennis dans la liste des joueurs
         /// </summary>
         /// <param name="player">Objet joueur</param>
-        /// <returns></returns>
+        /// <returns>Le joueur ajouté</returns>
         Player Add(Player player);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace TennisPlayersAPI.Repositories
         /// </summary>
         /// <param name="id">Identifiant de joueur à modifier</param>
         /// <param name="newPlayer">le nouveau joueur rempplacé</param>
-        /// <returns></returns>
+        /// <returns>Le joueur modifié</returns>
         Player Update(int id, Player newPlayer);
 
         /// <summary>

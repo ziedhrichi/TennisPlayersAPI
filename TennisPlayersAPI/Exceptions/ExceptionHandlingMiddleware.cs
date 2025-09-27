@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace TennisPlayersAPI.Exceptions
 {
+    /// <summary>
+    /// Une classe de middleware pour gérer les exceptions dans l'api
+    /// </summary>
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
@@ -12,6 +15,14 @@ namespace TennisPlayersAPI.Exceptions
             _next = next;
         }
 
+        /// <summary>
+        /// Middleware d’interception des requêtes HTTP.
+        /// Exécute le traitement suivant dans le pipeline puis capture les exceptions éventuelles.
+        /// - Si une <see cref="PlayerException"/> est levée, elle est gérée via <c>HandlePlayerExceptionAsync</c>.
+        /// - Si une exception générique est levée, elle est gérée via <c>HandleGenericExceptionAsync</c>.
+        /// </summary>
+        /// <param name="context">Le contexte HTTP de la requête en cours.</param>
+        /// <returns>Une tâche asynchrone représentant l’exécution du middleware.</returns>
         public async Task Invoke(HttpContext context)
         {
             try
@@ -28,6 +39,26 @@ namespace TennisPlayersAPI.Exceptions
             }
         }
 
+        /// <summary>
+        /// Gère les exceptions spécifiques au domaine <see cref="PlayerException"/> 
+        /// et renvoie une réponse HTTP appropriée.
+        /// 
+        /// - Associe un <see cref="PlayerErrorType"/> à un code HTTP standard :
+        ///   • NotFound → 404  
+        ///   • AlreadyExists → 409  
+        ///   • CreationFailed, UpdateFailed, DeletionFailed → 400  
+        ///   • Autres → 500  
+        /// 
+        /// - Sérialise une réponse JSON contenant :
+        ///   • <c>errorType</c> : le type d’erreur (chaîne)  
+        ///   • <c>message</c> : le message d’erreur détaillé  
+        ///   • <c>playerId</c> : identifiant du joueur concerné (peut être null)  
+        /// 
+        /// La réponse est envoyée avec le code HTTP adéquat et le type MIME <c>application/json</c>.
+        /// </summary>
+        /// <param name="context">Le contexte HTTP de la requête.</param>
+        /// <param name="ex">L’exception <see cref="PlayerException"/> capturée.</param>
+        /// <returns>Une tâche représentant l’écriture asynchrone de la réponse HTTP.</returns>
         private static Task HandlePlayerExceptionAsync(HttpContext context, PlayerException ex)
         {
             var statusCode = ex.ErrorType switch
@@ -37,7 +68,7 @@ namespace TennisPlayersAPI.Exceptions
                 PlayerErrorType.CreationFailed => HttpStatusCode.BadRequest,       // 400
                 PlayerErrorType.UpdateFailed => HttpStatusCode.BadRequest,       // 400
                 PlayerErrorType.DeletionFailed => HttpStatusCode.BadRequest,       // 400
-                _ => HttpStatusCode.InternalServerError
+                _ => HttpStatusCode.InternalServerError //500
             };
 
             var response = new
@@ -55,6 +86,21 @@ namespace TennisPlayersAPI.Exceptions
             return context.Response.WriteAsync(payload);
         }
 
+        /// <summary>
+        /// Gère les exceptions génériques non prises en charge spécifiquement
+        /// et renvoie une réponse HTTP 500 (Internal Server Error).
+        /// 
+        /// - Construit une réponse JSON contenant :
+        ///   • <c>errorType</c> : fixé à "InternalServerError"  
+        ///   • <c>message</c> : un message générique indiquant qu’une erreur inattendue est survenue  
+        ///   • <c>details</c> : le message détaillé de l’exception capturée  
+        /// 
+        /// La réponse est envoyée avec le type MIME <c>application/json</c>
+        /// et le code HTTP <see cref="HttpStatusCode.InternalServerError"/> (500).
+        /// </summary>
+        /// <param name="context">Le contexte HTTP de la requête.</param>
+        /// <param name="ex">L’exception générique capturée.</param>
+        /// <returns>Une tâche représentant l’écriture asynchrone de la réponse HTTP.</returns>
         private static Task HandleGenericExceptionAsync(HttpContext context, Exception ex)
         {
             var response = new
