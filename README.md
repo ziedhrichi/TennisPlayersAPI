@@ -161,8 +161,6 @@ Tu peux tester l’API avec :
 - **Swagger** : [Swagger](https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net/)  
 - **Authentification** : JWT Bearer Token  
 
------
-
 ### 🔑 Étapes pour tester avec JWT dans Swagger
 
 1. **Obtenir un token**
@@ -213,8 +211,6 @@ Tu peux tester l’API avec :
 - **User 👤** → accès lecture uniquement.  
 - **Editor 📝** → accès lecture, création et modification.  
 - **Admin 👑** → accès complet, y compris suppression. 
-
------
 
 ### 📚 Exemple rapide avec `curl`
 
