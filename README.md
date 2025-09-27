@@ -36,13 +36,13 @@ L’API suit une architecture en couches :
 
 ┣ 📂 Controllers : Endpoints REST exposés.
 
-┣ 📂 Exceptions : Les Exceptions.
+┣ 📂 Exceptions : Gestion des exceptions.
 
 ┣ 📂 Security : Sécurité (JWT dans notre cas)
 
 ┣ 📂 Config : Configuration & injection de dépendances
 
-┗ 📂 Tests : Tests unitaires et d’intégration
+┗ 📂 Tests : Tests unitaires et d’intégrations
 
 ---
 
@@ -173,28 +173,26 @@ Tu peux tester l’API avec :
    - Exemple de body :
      ```json
      {
+       "username": "user",
+       "password": "1234"
+     }
+     ```
+     ou
+     
+     ```json
+     {
+       "username": "editor",
+       "password": "1234"
+     }
+     ```
+     ou
+     
+     ```json
+     {
        "username": "admin",
        "password": "1234"
      }
      ```
-    ou
-
-    ```json
-    {
-      "username": "editor",
-      "password": "1234"
-    }
-    ```
-
-    ou
-
-    ```json
-    {
-      "username": "user",
-      "password": "1234"
-    }
-    ```
-
    - Réponse :
      ```json
      {
@@ -202,7 +200,7 @@ Tu peux tester l’API avec :
      }
      ```
 
-2. **Configurer Swagger pour utiliser le token**
+3. **Configurer Swagger pour utiliser le token**
    - Clique sur le bouton **Authorize** (en haut à droite dans Swagger).  
    - Saisis le token sous la forme :
      ```
@@ -210,7 +208,7 @@ Tu peux tester l’API avec :
      ```
    - Valide.  
 
-3. **Appeler les endpoints sécurisés**
+4. **Appeler les endpoints sécurisés**
    selon le rôle
 - **User 👤** → accès lecture uniquement.  
 - **Editor 📝** → accès lecture, création et modification.  
@@ -236,10 +234,9 @@ curl -X GET https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azureweb
 ## 🔮 Améliorations Futures
 
 - Implémentation d’une base de données SQL (Azure SQL ou PostgreSQL)
-- Implementer la securité avec Azure key vault
-- Gestion des utilisateurs avec base de donnée pour les roles de la partie securité
-- Mise en cache des statistiques avec Redis
-- Ajout de tests de performance (ex : k6, JMeter)
-- Documentation Postman collection exportée
+- Sécurisation des secrets et clés d’accès via Azure Key Vault.
+- Gestion centralisée des utilisateurs et rôles dans la base de données pour renforcer la partie sécurité
+- Mise en cache des statistiques avec Redis afin d’améliorer les performances.
+- Documentation Postman collection exportée pour faciliter les tests.
 
 ---
