@@ -163,20 +163,6 @@ Tu peux tester l’API avec :
 
 -----
 
-## 🔑 Gestion des rôles
-
-L’API utilise un système de **rôles** pour restreindre l’accès :
-
-- 👤 **User**
-  - Peut consulter les joueurs (`GET`)
-- 📝 **Editor**
-  - Peut consulter (`GET`)
-  - Peut créer et modifier (`POST`, `PUT`)
-- 👑 **Admin**
-  - A tous les droits (`GET`, `POST`, `PUT`, `DELETE`)
-
------
-
 ### 🔑 Étapes pour tester avec JWT dans Swagger
 
 1. **Obtenir un token**
@@ -191,6 +177,24 @@ L’API utilise un système de **rôles** pour restreindre l’accès :
        "password": "1234"
      }
      ```
+    ou
+
+    ```json
+    {
+      "username": "editor",
+      "password": "1234"
+    }
+    ```
+
+    ou
+
+    ```json
+    {
+      "username": "user",
+      "password": "1234"
+    }
+    ```
+
    - Réponse :
      ```json
      {
@@ -207,14 +211,10 @@ L’API utilise un système de **rôles** pour restreindre l’accès :
    - Valide.  
 
 3. **Appeler les endpoints sécurisés**
-   - Les endpoints comme :
-     - `GET /api/TennisPlayers`
-     - `POST /api/TennisPlayers`
-     - `PUT /api/TennisPlayers/{id}`
-     - `DELETE /api/TennisPlayers/{id}`
-     
-     nécessitent un utilisateur authentifié avec le rôle `admin`.  
-   - Une fois le token ajouté, tu peux tester normalement.  
+   selon le rôle
+- **User 👤** → accès lecture uniquement.  
+- **Editor 📝** → accès lecture, création et modification.  
+- **Admin 👑** → accès complet, y compris suppression. 
 
 -----
 
