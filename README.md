@@ -8,7 +8,7 @@ Le projet est conçu en **C# / .NET** avec une architecture claire (Model - Repo
 ## 🚀 Fonctionnalités
 
 - 📋 Consulter la liste des joueurs triée du meilleur au moins bon.
-- 🔍 Rechercher un joueur par ID, prénom ou nom
+- 🔍 Rechercher un joueur par ID
 - 📊 Retourner les statistiques suivantes :
   - Pays qui a le plus grand ratio de parties gagnées
   - IMC moyen de tous les joueurs
@@ -16,7 +16,7 @@ Le projet est conçu en **C# / .NET** avec une architecture claire (Model - Repo
 - ➕ Ajouter un joueur
 - ✏️ Mettre à jour les informations d’un joueur
 - ❌ Supprimer un joueur
-- 🔐 Sécurisation via Azure KeyVault et JWT
+- 🔐 Sécurisation via JWT
 
 ---
 
@@ -70,7 +70,7 @@ L’API suit une architecture en couches :
 
 ## 📊 Observabilité & Logging
 
-- **Logging** centralisé avec Serilog (console + fichiers + Azure Application Insights)
+- **Logging** centralisé avec Serilog (console + fichiers)
 - **Monitoring** via Azure Monitor pour suivre les performances et erreurs
 - Middleware de logging HTTP pour tracer chaque appel
 
