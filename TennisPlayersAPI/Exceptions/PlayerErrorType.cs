@@ -6,6 +6,7 @@
         AlreadyExists,
         CreationFailed,
         UpdateFailed,
-        DeletionFailed
+        DeletionFailed,
+        Forbidden
     }
 }

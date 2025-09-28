@@ -68,22 +68,30 @@ namespace TennisPlayersAPI.Exceptions
                 PlayerErrorType.CreationFailed => HttpStatusCode.BadRequest,       // 400
                 PlayerErrorType.UpdateFailed => HttpStatusCode.BadRequest,       // 400
                 PlayerErrorType.DeletionFailed => HttpStatusCode.BadRequest,       // 400
+                PlayerErrorType.Forbidden => HttpStatusCode.Forbidden,       // 403
                 _ => HttpStatusCode.InternalServerError //500
             };
+
+
+            //var payload = JsonSerializer.Serialize(response);
+
+            //context.Response.ContentType = "application/json";
+            //context.Response.StatusCode = (int)statusCode;
+
+            //return context.Response.WriteAsync(payload);
 
             var response = new
             {
                 errorType = ex.ErrorType.ToString(),
                 message = ex.Message,
-                playerId = ex.PlayerId // optionnel (sera null si pas fourni)
+                playerId = ex.PlayerId
             };
 
-            var payload = JsonSerializer.Serialize(response);
-
-            context.Response.ContentType = "application/json";
+            context.Response.Clear();
             context.Response.StatusCode = (int)statusCode;
+            context.Response.ContentType = "application/json; charset=utf-8";
 
-            return context.Response.WriteAsync(payload);
+            return context.Response.WriteAsJsonAsync(response);
         }
 
         /// <summary>

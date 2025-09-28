@@ -46,9 +46,9 @@ namespace TennisPlayersAPI.Controllers
             {
                 role = "Editor";
             }
-            else if (request.Username == "user" && request.Password == "1234")
+            else if (request.Username == "visitor" && request.Password == "1234")
             {
-                role = "User";
+                role = "Visitor";
             }
             else
             {

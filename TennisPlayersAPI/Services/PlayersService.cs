@@ -4,6 +4,11 @@ using TennisPlayersAPI.Repositories;
 
 namespace TennisPlayersAPI.Services
 {
+    /// <summary>
+    /// Service applicatif chargé de la gestion et du traitement des joueurs.
+    /// Cette classe implémente IPlayersService et encapsule 
+    /// la logique métier liée aux joueurs
+    /// </summary>
     internal class PlayersService : IPlayersService
     {
         private readonly IPlayerRepository _repo;
@@ -66,7 +71,7 @@ namespace TennisPlayersAPI.Services
         /// <returns></returns>
         public Player UpdatePlayer(int id, Player newPlayer)
         {
-            var existing =_repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            var existing = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
             try
             {
                 return _repo.Update(id, newPlayer);
@@ -104,9 +109,41 @@ namespace TennisPlayersAPI.Services
         /// <returns>Un objet statistique</returns>
         public StatisticsResult GetStats()
         {
-            var players = _repo.GetAll().ToList();
+            try
+            {
+                var players = _repo.GetAll()?.ToList();
 
-            // 1. Pays avec le meilleur ratio de victoires
+                if (players == null || !players.Any())
+                    throw PlayerException.NoPlayersFound();
+
+                return new StatisticsResult
+                {
+                    BestCountry = CalculateBestCountry(players),
+                    AverageBmi = CalculateAverageBmi(players),
+                    MedianHeight = CalculateMedianHeight(players)
+                };
+            }
+            catch (PlayerException)
+            {
+                // On relance les exceptions métier prévues
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // Toute autre erreur est encapsulée
+                throw PlayerException.UpdateFailed(0, $"Erreur lors du calcul des statistiques : {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Calcule le pays avec le meilleur ratio de victoires parmi les joueurs.
+        /// </summary>
+        /// <param name="players">Liste des joueurs à analyser.</param>
+        /// <returns>
+        /// Le code du pays avec le meilleur ratio de victoires, ou "N/A" si aucun pays n'est trouvé.
+        /// </returns>
+        private string CalculateBestCountry(IEnumerable<Player> players)
+        {
             var countryStats = players
                 .GroupBy(p => p.Country.Code)
                 .Select(g => new
@@ -118,38 +155,61 @@ namespace TennisPlayersAPI.Services
                 .Select(x => new
                 {
                     x.Country,
-                    Ratio = (double)x.Wins / x.Total
+                    Ratio = x.Total > 0 ? (double)x.Wins / x.Total : 0
                 })
                 .OrderByDescending(x => x.Ratio)
                 .FirstOrDefault();
 
-            string bestCountry = countryStats?.Country ?? "N/A";
+            return countryStats?.Country ?? "N/A";
+        }
 
-            // 2. IMC moyen
+        /// Calcule l'IMC moyen de l'ensemble des joueurs.
+        /// </summary>
+        /// <param name="players">Liste des joueurs à analyser.</param>
+        /// <returns>
+        /// L'IMC moyen, arrondi à deux décimales.
+        /// </returns>
+        /// <exception cref="PlayerException">
+        /// Lancée si la taille d'un joueur est invalide (inférieure ou égale à zéro).
+        /// </exception>
+        private double CalculateAverageBmi(IEnumerable<Player> players)
+        {
             var bmis = players.Select(p =>
             {
-                double weightKg = p.Data.Weight / 1000.0;
-                double heightM = p.Data.Height / 100.0;
+                double weightKg = p.Data.Weight / 1000.0; // grammes → kilogrammes
+                double heightM = p.Data.Height / 100.0; // cm → mètres
+
+                if (heightM <= 0)
+                    throw PlayerException.UpdateFailed(p.Id, "Taille invalide pour le calcul de l'IMC.");
+
                 return weightKg / (heightM * heightM);
             });
 
-            double avgBmi = bmis.Average();
+            return Math.Round(bmis.Average(), 2);
+        }
 
-            // 3. Médiane de la taille
+        /// <summary>
+        /// Calcule la médiane des tailles des joueurs.
+        /// </summary>
+        /// <param name="players">Liste des joueurs à analyser.</param>
+        /// <returns>
+        /// La taille médiane des joueurs.
+        /// </returns>
+        /// <exception cref="PlayerException">
+        /// Lancée si aucun joueur n'est disponible.
+        /// </exception>
+        private double CalculateMedianHeight(IEnumerable<Player> players)
+        {
             var sortedHeights = players.Select(p => p.Data.Height).OrderBy(h => h).ToList();
-            double median;
-            int n = sortedHeights.Count;
-            if (n % 2 == 1)
-                median = sortedHeights[n / 2];
-            else
-                median = (sortedHeights[(n / 2) - 1] + sortedHeights[n / 2]) / 2.0;
 
-            return new StatisticsResult
-            {
-                BestCountry = bestCountry,
-                AverageBmi = Math.Round(avgBmi, 2),
-                MedianHeight = median
-            };
+            if (!sortedHeights.Any())
+                throw PlayerException.NoPlayersFound();
+
+            int n = sortedHeights.Count;
+
+            return (n % 2 == 1)
+                ? sortedHeights[n / 2]
+                : (sortedHeights[(n / 2) - 1] + sortedHeights[n / 2]) / 2.0;
         }
     }
 }

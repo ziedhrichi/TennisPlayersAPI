@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 using TennisPlayersAPI.Models;
 using TennisPlayersAPI.Services;
 
@@ -27,7 +28,7 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Liste des joueurs de Tennis</returns>
         [HttpGet]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "Visitor,Editor,Admin")]
         public IActionResult GetPlayers()
         {
             return Ok(_service.GetAllPlayers());
@@ -39,7 +40,7 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>Joueur de tennis</returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "Visitor,Editor,Admin")]
         public IActionResult GetPlayer(int id)
         {
             _logger.LogInformation("Recherche du joueur avec ID {PlayerId}", id);
@@ -60,7 +61,12 @@ namespace TennisPlayersAPI.Controllers
         [Authorize(Roles = "Editor,Admin")]
         public IActionResult AddPlayer([FromBody] Player player)
         {
+            _logger.LogInformation("Ajouter un nouveau joueur avec ID {PlayerId}", player.Id);
+
             var created = _service.AddPlayer(player);
+
+            _logger.LogInformation("Joueur ajouté : {@Player}", player);
+
             return CreatedAtAction(nameof(GetPlayer), new { id = created.Id }, created);
         }
 
@@ -74,8 +80,13 @@ namespace TennisPlayersAPI.Controllers
         [Authorize(Roles = "Editor,Admin")]
         public IActionResult UpdatePlayer(int id, [FromBody] Player player)
         {
+            _logger.LogInformation("Modifier le joueur avec ID {PlayerId}", player.Id);
+
             var updated = _service.UpdatePlayer(id, player);
             if (updated == null) return NotFound();
+
+            _logger.LogInformation("Joueur modifié : {@Player}", player);
+
             return Ok(updated);
         }
 
@@ -88,8 +99,13 @@ namespace TennisPlayersAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeletePlayer(int id)
         {
+            _logger.LogInformation("Supprimer le joueur avec ID {PlayerId}", id);
+
             var deleted = _service.DeletePlayer(id);
             if (!deleted) return NotFound();
+
+            _logger.LogInformation("Le joueur avec l'id {PlayerId} a été supprimé ", id);
+
             return NoContent(); 
         }
 
@@ -101,12 +117,14 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Un objet statistique</returns>
         [HttpGet("statistics")]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "Visitor,Editor,Admin")]
         public IActionResult GetStatistics()
         {
             var stats = _service.GetStats();
             return Ok(stats);
         }
+
+        public record ApiErrorResponse(string Error, string Message, int? PlayerId);
 
     }
 }
