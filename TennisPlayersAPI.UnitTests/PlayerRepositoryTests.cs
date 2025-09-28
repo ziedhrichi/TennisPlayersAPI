@@ -7,6 +7,9 @@ using TennisPlayersAPI.Repositories;
 
 namespace TennisPlayersAPI.UnitTests
 {
+    /// <summary>
+    /// Class des tests unitaires de la partie Accès aux données.
+    /// </summary>
     public class PlayerRepositoryTests
     {
         private readonly Mock<IFileSystem> _fileSystemMock;

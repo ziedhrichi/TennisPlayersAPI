@@ -93,7 +93,7 @@ builder.Host.UseSerilog();
 
 #endregion
 
-#region Services applicatifs (DI)
+#region Services applicatifs
 
 // Contrôleurs REST
 builder.Services.AddControllers();
