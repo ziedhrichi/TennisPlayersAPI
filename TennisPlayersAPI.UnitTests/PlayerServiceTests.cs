@@ -9,6 +9,9 @@ using TennisPlayersAPI.Services;
 
 namespace TennisPlayersAPI.UnitTests
 {
+    /// <summary>
+    /// Class des tests unitaire de la partie logique métier 
+    /// </summary>
     public class PlayerServiceTests
     {
         private readonly Mock<IPlayerRepository> _mockRepo;

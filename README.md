@@ -194,7 +194,8 @@ Tu peux tester l’API avec :
    - Réponse :
      ```json
      {
-       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....",
+       "role": "Visitor"
      }
      ```
 

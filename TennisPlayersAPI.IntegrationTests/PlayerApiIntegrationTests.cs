@@ -13,6 +13,9 @@ using TennisPlayersAPI.Models;
 
 namespace TennisPlayersAPI.IntegrationTests
 {
+    /// <summary>
+    /// Class des tests d'integration de l'API
+    /// </summary>
     public class PlayerApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
