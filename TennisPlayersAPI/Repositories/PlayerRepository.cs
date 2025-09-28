@@ -4,6 +4,9 @@ using TennisPlayersAPI.Models;
 
 namespace TennisPlayersAPI.Repositories
 {
+    /// <summary>
+    /// Classe est chargé d’accéder aux données des joueurs.
+    /// </summary>
     internal class PlayerRepository : IPlayerRepository
     {
         private readonly Root _root;

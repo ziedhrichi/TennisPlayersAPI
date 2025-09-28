@@ -133,25 +133,25 @@ Lors de la connexion (`/api/Auth/login`), un token est généré avec un rôle a
 
 ### Comptes de test disponibles
 
-| Username | Password | Rôle   | Droits |
-|----------|----------|--------|--------|
-| `user`   | `1234`   | User 👤   | Lecture uniquement |
-| `editor` | `1234`   | Editor 📝 | Lecture + Création + Modification |
-| `admin`  | `1234`   | Admin 👑  | Lecture + Création + Modification + Suppression |
+| Username    | Password | Rôle         | Droits |
+|-------------|----------|--------------|--------|
+| `visitor`   | `1234`   | Visitor 👤   | Lecture uniquement |
+| `editor`    | `1234`   | Editor 📝    | Lecture + Création + Modification |
+| `admin`     | `1234`   | Admin 👑     | Lecture + Création + Modification + Suppression |
 
 ---
 
 ## 🗂️ Endpoints et rôles associés
 
-| Endpoint                           | User 👤 | Editor 📝 | Admin 👑 |
-|------------------------------------|---------|-----------|----------|
-| `GET /api/TennisPlayers`           | ✅      | ✅        | ✅       |
-| `GET /api/TennisPlayers/{id}`      | ✅      | ✅        | ✅       |
-| `POST /api/TennisPlayers`          | ❌      | ✅        | ✅       |
-| `PUT /api/TennisPlayers/{id}`      | ❌      | ✅        | ✅       |
-| `DELETE /api/TennisPlayers/{id}`   | ❌      | ❌        | ✅       |
-| `GET /api/TennisPlayers/statistics`| ✅      | ✅        | ✅       |
-
+| Endpoint                           | Visitor 👤  | Editor 📝 | Admin 👑  |
+|------------------------------------|-------------|-----------|-----------|
+| `GET /api/TennisPlayers`           | ✅          | ✅        | ✅       |
+| `GET /api/TennisPlayers/{id}`      | ✅          | ✅        | ✅       |
+| `POST /api/TennisPlayers`          | ❌          | ✅        | ✅       |
+| `PUT /api/TennisPlayers/{id}`      | ❌          | ✅        | ✅       |
+| `DELETE /api/TennisPlayers/{id}`   | ❌          | ❌        | ✅       |
+| `GET /api/TennisPlayers/statistics`| ✅          | ✅        | ✅       |
+ 
 ---
 
 ## ⚡ Tester l’API
@@ -171,7 +171,7 @@ Tu peux tester l’API avec :
    - Exemple de body :
      ```json
      {
-       "username": "user",
+       "username": "visitor",
        "password": "1234"
      }
      ```
@@ -208,9 +208,18 @@ Tu peux tester l’API avec :
 
 4. **Appeler les endpoints sécurisés**
    selon le rôle
-- **User 👤** → accès lecture uniquement.  
+- **Visitor 👤** → accès lecture uniquement.  
 - **Editor 📝** → accès lecture, création et modification.  
 - **Admin 👑** → accès complet, y compris suppression. 
+
+⚠️ NB :
+Si tu veux tester avec un autre profil (visitor, editor ou admin), il faut :
+
+Te déconnecter du profil actuellement connecté.
+
+Générer un nouveau token via le contrôleur d’authentification (/api/Auth/login) avec les identifiants du nouveau profil.
+
+Reconfigurer Swagger avec ce nouveau token.
 
 ### 📚 Exemple rapide avec `curl`
 

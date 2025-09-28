@@ -1,4 +1,6 @@
-﻿namespace TennisPlayersAPI.Exceptions
+﻿using static TennisPlayersAPI.Controllers.TennisPlayersController;
+
+namespace TennisPlayersAPI.Exceptions
 {
     public class PlayerException : Exception
     {
@@ -30,6 +32,10 @@
             new(PlayerErrorType.DeletionFailed, $"Impossible de supprimer le joueur {id} : {reason}", id);
 
         public static PlayerException NoPlayersFound() =>
-            new(PlayerErrorType.NotFound, "Aucun joueur n’a pu être chargé depuis la source de données." );
+            new(PlayerErrorType.NotFound, "Aucun joueur n’a pu être chargé depuis la source de données.");
+
+        public static PlayerException AccessDenied() =>
+            new(PlayerErrorType.Forbidden, "Accès refusé : vous n’avez pas les droits suffisants pour effectuer cette action.");
     }
+
 }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -11,32 +11,18 @@ using TennisPlayersAPI.Logs;
 using TennisPlayersAPI.Repositories;
 using TennisPlayersAPI.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-//// Charger la cl� depuis les App Settings (Azure injectera la valeur)
-//var jwtKey = builder.Configuration["JwtSecret"] ?? "dotnet user-secrets";
-//var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+#region Configuration (appsettings + variables d’environnement)
 
-//// Configurer l�authentification JWT
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new()
-//        {
-//            ValidateIssuer = true,
-//            ValidIssuer = "https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net", 
-//            ValidateAudience = true,
-//            ValidAudience = "tennis-player-api",
-//            ValidateIssuerSigningKey = true,
-//            IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-//            ValidateLifetime = true
-//        };
-//    });
-
+// Charge la config depuis appsettings.json + appsettings.{env}.json + variables d’environnement
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                      .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
                      .AddEnvironmentVariables();
+
+#endregion
+
+#region Authentification & JWT
 
 builder.Services.AddAuthentication(options =>
 {
@@ -45,6 +31,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    // Validation du token JWT
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -54,15 +41,47 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
 
-        RoleClaimType = ClaimTypes.Role,
-        NameClaimType = JwtRegisteredClaimNames.Sub
+        RoleClaimType = ClaimTypes.Role,               // lecture des rôles
+        NameClaimType = JwtRegisteredClaimNames.Sub    // lecture du "sub"
+    };
+
+    // Gestion des erreurs d’auth/autorisation
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            // Token manquant ou invalide → 401 JSON custom
+            context.HandleResponse();
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+            return context.Response.WriteAsJsonAsync(new
+            {
+                errorType = "Unauthorized",
+                message = "Authentification requise.",
+                playerId = (int?)null
+            });
+        },
+        OnForbidden = context =>
+        {
+            // Token valide mais pas les droits → 403 JSON custom
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            context.Response.ContentType = "application/json";
+            return context.Response.WriteAsJsonAsync(new
+            {
+                errorType = "Forbidden",
+                message = "Accès refusé : vous n’avez pas les droits suffisants pour effectuer cette action.",
+                playerId = (int?)null
+            });
+        }
     };
 });
 
+#endregion
 
-// Configuration Serilog
+#region Logging avec Serilog
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .WriteTo.Console()
@@ -72,10 +91,14 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Add services to the container.
+#endregion
 
+#region Services applicatifs (DI)
+
+// Contrôleurs REST
 builder.Services.AddControllers();
 
+// Politique CORS permissive (ouvert à tout le monde)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", b =>
@@ -86,12 +109,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger + documentation API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // Infos g�n�rales sur l�API
+    // Infos générales de l’API
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Tennis Player API",
@@ -104,30 +126,30 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // R�cup�re les commentaires XML g�n�r�s par /// <summary>
+    // Ajout des commentaires XML générés par /// <summary>
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 
-    // Int�grer la partie tuthorization
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    // Configuration pour sécuriser Swagger avec JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         BearerFormat = "JWT",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Entrez 'Bearer' [espace] et puis votre token.\n\nExemple: \"Bearer eyJhbGciOi...\""
+        In = ParameterLocation.Header,
+        Description = "Entrez 'Bearer' [espace] puis votre token.\n\nExemple: \"Bearer eyJhbGciOi...\""
     });
 
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            new OpenApiSecurityScheme
             {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                Reference = new OpenApiReference
                 {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
             },
@@ -136,36 +158,50 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// Injection des dépendances applicatives
 builder.Services.AddScoped<IFileSystem, RealFileSystem>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayersService, PlayersService>();
 
+#endregion
+
 var app = builder.Build();
 
-// Middleware pour logging 
+#region Pipeline HTTP (middlewares)
+
+// Gestion centralisée des exceptions (JSON format)
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Logging personnalisé des requêtes HTTP
 app.UseMiddleware<RequestLoggingMiddleware>();
 
+// Redirection HTTPS
+app.UseHttpsRedirection();
+
+// Autoriser toutes les origines/méthodes/headers (CORS)
+app.UseCors("AllowAll");
+
+// Swagger UI (accessible à la racine : http://localhost:5000)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tennis Player API v1");
-    c.RoutePrefix = string.Empty; // Swagger UI accessible � la racine (http://localhost:5000)
+    c.RoutePrefix = string.Empty;
 });
 
+// Routing ASP.NET Core
+app.UseRouting();
 
-app.UseCors("AllowAll");
-
-app.UseHttpsRedirection();
-
+// Authentification & autorisation
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-// Activ� le middleware d'exception
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
+// Mappe les contrôleurs REST
 app.MapControllers();
 
 app.Run();
 
+#endregion
+
+// Classe partielle requise pour les tests d’intégration
 public partial class Program { }
