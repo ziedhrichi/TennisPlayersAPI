@@ -215,11 +215,9 @@ Tu peux tester l’API avec :
 ⚠️ NB :
 Si tu veux tester avec un autre profil (visitor, editor ou admin), il faut :
 
-Te déconnecter du profil actuellement connecté.
-
-Générer un nouveau token via le contrôleur d’authentification (/api/Auth/login) avec les identifiants du nouveau profil.
-
-Reconfigurer Swagger avec ce nouveau token.
+- Te déconnecter du profil actuellement connecté.
+- Générer un nouveau token via le contrôleur d’authentification (/api/Auth/login) avec les identifiants du nouveau profil.
+- Reconfigurer Swagger avec ce nouveau token.
 
 ### 📚 Exemple rapide avec `curl`
 
