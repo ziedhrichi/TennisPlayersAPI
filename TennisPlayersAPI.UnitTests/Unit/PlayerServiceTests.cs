@@ -1,13 +1,11 @@
 using Moq;
 using System.Numerics;
 using System.Text.Json;
-using TennisPlayersAPI.Data;
-using TennisPlayersAPI.Exceptions;
-using TennisPlayersAPI.Models;
-using TennisPlayersAPI.Repositories;
-using TennisPlayersAPI.Services;
+using TennisPlayers.Application.Contracts;
+using TennisPlayers.Application.Services;
+using TennisPlayers.Domain.Entities;
 
-namespace TennisPlayersAPI.UnitTests
+namespace TennisPlayers.Test.Unit
 {
     /// <summary>
     /// Class des tests unitaire de la partie logique métier 

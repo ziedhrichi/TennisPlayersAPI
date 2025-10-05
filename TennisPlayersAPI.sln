@@ -10,9 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "�
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisPlayersAPI.UnitTests", "TennisPlayersAPI.UnitTests\TennisPlayersAPI.UnitTests.csproj", "{21C6BE35-02DE-41DC-8068-86C9B85922E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisPlayersAPI.IntegrationTests", "TennisPlayersAPI.IntegrationTests\TennisPlayersAPI.IntegrationTests.csproj", "{7EA7BDB5-D925-4790-B84B-FED11983D007}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisPlayers.Test", "TennisPlayersAPI.UnitTests\TennisPlayers.Test.csproj", "{21C6BE35-02DE-41DC-8068-86C9B85922E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisPlayers.Domain", "TennisPlayers.Domain\TennisPlayers.Domain.csproj", "{DDF7DA23-D4AD-443D-B6EA-8B5E4A94B6B0}"
 EndProject
@@ -34,10 +32,6 @@ Global
 		{21C6BE35-02DE-41DC-8068-86C9B85922E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21C6BE35-02DE-41DC-8068-86C9B85922E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21C6BE35-02DE-41DC-8068-86C9B85922E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EA7BDB5-D925-4790-B84B-FED11983D007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EA7BDB5-D925-4790-B84B-FED11983D007}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EA7BDB5-D925-4790-B84B-FED11983D007}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EA7BDB5-D925-4790-B84B-FED11983D007}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDF7DA23-D4AD-443D-B6EA-8B5E4A94B6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDF7DA23-D4AD-443D-B6EA-8B5E4A94B6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDF7DA23-D4AD-443D-B6EA-8B5E4A94B6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU

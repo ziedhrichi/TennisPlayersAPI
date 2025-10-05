@@ -1,11 +1,10 @@
 using Moq;
 using System.Numerics;
 using System.Text.Json;
-using TennisPlayersAPI.Data;
-using TennisPlayersAPI.Models;
-using TennisPlayersAPI.Repositories;
+using TennisPlayers.Domain.Entities;
+using TennisPlayers.Infrastructure.Persistence;
 
-namespace TennisPlayersAPI.UnitTests
+namespace TennisPlayers.Test.Unit
 {
     /// <summary>
     /// Class des tests unitaires de la partie Accès aux données.
@@ -38,7 +37,7 @@ namespace TennisPlayersAPI.UnitTests
         [Fact]
         public void GetAll_ShouldReturnPlayers()
         {
-            var players = _repo.GetAll();
+            var players = _repo.GetAllAsync();
 
             Assert.Equal(2, ((List<Player>)players).Count);
         }
