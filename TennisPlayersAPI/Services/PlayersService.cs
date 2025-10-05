@@ -1,4 +1,5 @@
-﻿using TennisPlayersAPI.Exceptions;
+﻿using System.Numerics;
+using TennisPlayersAPI.Exceptions;
 using TennisPlayersAPI.Models;
 using TennisPlayersAPI.Repositories;
 
@@ -22,9 +23,9 @@ namespace TennisPlayersAPI.Services
         /// Retourner tous les joueurs de tennis
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Player> GetAllPlayers()
+        public async Task<IEnumerable<Player>> GetPlayersAsync()
         {
-            var players = _repo.GetAll() ?? throw PlayerException.NoPlayersFound();
+            var players = await _repo.GetAllAsync() ?? throw PlayerException.NoPlayersFound();
 
             if (!players.Any())
                 throw PlayerException.NoPlayersFound();
@@ -37,9 +38,9 @@ namespace TennisPlayersAPI.Services
         /// </summary>
         /// <param name="id">Identifiant</param>
         /// <returns></returns>
-        public Player GetPlayerById(int id)
+        public async Task<Player?> GetPlayerByIdAsync(int id)
         {
-            var player = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            var player =  await _repo.GetByIdAsync(id) ?? throw PlayerException.NotFound(id);
             return player;
         }
 
@@ -48,14 +49,15 @@ namespace TennisPlayersAPI.Services
         /// </summary>
         /// <param name="player">Objet joueur</param>
         /// <returns></returns>
-        public Player AddPlayer(Player player)
+        public async Task<Player> AddPlayerAsync(Player player)
         {
-            if (_repo.GetAll().Any(p => p.Id == player.Id))
+            var _player = GetPlayerByIdAsync(player.Id);
+            if (!_player.IsFaulted)
                 throw PlayerException.AlreadyExists(player.Id);
 
             try
             {
-                return _repo.Add(player);
+                return await _repo.AddAsync(player);
             }
             catch (Exception ex)
             {
@@ -66,33 +68,31 @@ namespace TennisPlayersAPI.Services
         /// <summary>
         /// Modifier un joueur de tennis dans la liste des joueurs
         /// </summary>
-        /// <param name="id">Identifiant de joueur à modifier</param>
+        /// <param name="player">Le joueur à modifier</param>
         /// <param name="newPlayer">le nouveau joueur rempplacé</param>
         /// <returns></returns>
-        public Player UpdatePlayer(int id, Player newPlayer)
+
+        public async Task<Player> UpdatePlayerAsync(Player player)
         {
-            var existing = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            if (GetPlayerByIdAsync(player.Id) != null)  throw PlayerException.NotFound(player.Id);
             try
             {
-                return _repo.Update(id, newPlayer);
+                return await _repo.UpdateAsync(player);
+
             }
             catch (Exception ex)
             {
-                throw PlayerException.UpdateFailed(id, ex.Message);
+                throw PlayerException.UpdateFailed(player.Id, ex.Message);
             }
         }
 
-        /// <summary>
-        /// Supprimer un joueur de Tennis
-        /// </summary>
-        /// <param name="id">Identifiant de joueur de tennis</param>
-        /// <returns>bool: False ou True</returns>
-        public bool DeletePlayer(int id)
+        public async Task DeletePlayerAsync(int id)
         {
-            var existing = _repo.GetById(id) ?? throw PlayerException.NotFound(id);
+            if (GetPlayerByIdAsync(id) != null) throw PlayerException.NotFound(id);
+
             try
             {
-                return _repo.Delete(id);
+                await _repo.DeleteAsync(id);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace TennisPlayersAPI.Services
         {
             try
             {
-                var players = _repo.GetAll()?.ToList();
+                var players = GetPlayersAsync().Result; //Au début j'ai fait déclarer la méthode avec List au lieu de IEnumerable et j'ai oublié de supprimer .tolist()
 
                 if (players == null || !players.Any())
                     throw PlayerException.NoPlayersFound();
@@ -134,6 +134,8 @@ namespace TennisPlayersAPI.Services
                 throw PlayerException.UpdateFailed(0, $"Erreur lors du calcul des statistiques : {ex.Message}");
             }
         }
+
+       
 
         /// <summary>
         /// Calcule le pays avec le meilleur ratio de victoires parmi les joueurs.

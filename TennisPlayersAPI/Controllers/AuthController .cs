@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -58,7 +59,7 @@ namespace TennisPlayersAPI.Controllers
             var claims = new[]
             {
         new Claim(JwtRegisteredClaimNames.Sub, request.Username),
-        new Claim(ClaimTypes.Role, role)
+        new Claim("role", role)
     };
 
             var token = new JwtSecurityToken(
@@ -70,6 +71,13 @@ namespace TennisPlayersAPI.Controllers
             );
 
             return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), role });
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult Me()
+        {
+            return Ok(User.Claims.Select(c => new { c.Type, c.Value }));
         }
     }
 }

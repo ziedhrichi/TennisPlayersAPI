@@ -20,6 +20,8 @@
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.5.3" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>

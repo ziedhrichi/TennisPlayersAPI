@@ -1,25 +1,33 @@
-﻿namespace TennisPlayersAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+using Xunit;
+using Xunit.Sdk;
+
+namespace TennisPlayersAPI.Models
 {
     public class PlayerData
     {
         /// <summary>
         /// Rang de joueur
         /// </summary>
+        [Required]
         public int Rank { get; set; }
 
         /// <summary>
         /// Les points de joueur
         /// </summary>
+        [Required]
         public int Points { get; set; }
 
         /// <summary>
         /// Poid de joueur
         /// </summary>
+        [Range(30, 200, ErrorMessage = "Le poids doit être compris entre 30kg et 200kg.")]
         public int Weight { get; set; }
 
         /// <summary>
         /// Taille de joueur
         /// </summary>
+        [Range(50, 250, ErrorMessage = "La taille doit être comprise entre 50cm et 250cm.")]
         public int Height { get; set; }
 
         /// <summary>

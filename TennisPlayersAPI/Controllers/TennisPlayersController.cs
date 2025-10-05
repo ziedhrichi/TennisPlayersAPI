@@ -28,10 +28,10 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Liste des joueurs de Tennis</returns>
         [HttpGet]
-        [Authorize(Roles = "Visitor,Editor,Admin")]
-        public IActionResult GetPlayers()
+        [Authorize(Policy = "Read")]
+        public async Task<IActionResult> GetPlayers()
         {
-            return Ok(_service.GetAllPlayers());
+            return Ok(await _service.GetPlayersAsync());
         }
 
         /// <summary>
@@ -40,12 +40,12 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>Joueur de tennis</returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Visitor,Editor,Admin")]
-        public IActionResult GetPlayer(int id)
+        [Authorize(Policy = "Read")]
+        public async Task<IActionResult> GetPlayer(int id)
         {
             _logger.LogInformation("Recherche du joueur avec ID {PlayerId}", id);
 
-            var player = _service.GetPlayerById(id);
+            var player = await _service.GetPlayerByIdAsync(id);
             if (player == null) return NotFound();
 
             _logger.LogInformation("Joueur trouvé : {@Player}", player);
@@ -58,12 +58,12 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="player">Objet joueur</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Editor,Admin")]
-        public IActionResult AddPlayer([FromBody] Player player)
+        [Authorize(Policy = "Write")]
+        public async Task<IActionResult> AddPlayer([FromBody] Player player)
         {
             _logger.LogInformation("Ajouter un nouveau joueur avec ID {PlayerId}", player.Id);
 
-            var created = _service.AddPlayer(player);
+            var created = await _service.AddPlayerAsync(player);
 
             _logger.LogInformation("Joueur ajouté : {@Player}", player);
 
@@ -77,12 +77,12 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="player">le nouveau joueur rempplacé</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Editor,Admin")]
-        public IActionResult UpdatePlayer(int id, [FromBody] Player player)
+        [Authorize(Policy = "Write")]
+        public async Task<IActionResult> UpdatePlayer([FromBody] Player player)
         {
             _logger.LogInformation("Modifier le joueur avec ID {PlayerId}", player.Id);
 
-            var updated = _service.UpdatePlayer(id, player);
+            var updated = await _service.UpdatePlayerAsync(player);
             if (updated == null) return NotFound();
 
             _logger.LogInformation("Joueur modifié : {@Player}", player);
@@ -96,13 +96,12 @@ namespace TennisPlayersAPI.Controllers
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>bool: False ou True</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeletePlayer(int id)
+        [Authorize(Policy = "Delete")]
+        public async Task<IActionResult> DeletePlayer(int id)
         {
             _logger.LogInformation("Supprimer le joueur avec ID {PlayerId}", id);
 
-            var deleted = _service.DeletePlayer(id);
-            if (!deleted) return NotFound();
+             await _service.DeletePlayerAsync(id);
 
             _logger.LogInformation("Le joueur avec l'id {PlayerId} a été supprimé ", id);
 
@@ -117,7 +116,7 @@ namespace TennisPlayersAPI.Controllers
         /// </summary>
         /// <returns>Un objet statistique</returns>
         [HttpGet("statistics")]
-        [Authorize(Roles = "Visitor,Editor,Admin")]
+        [Authorize(Policy = "Read")]
         public IActionResult GetStatistics()
         {
             var stats = _service.GetStats();

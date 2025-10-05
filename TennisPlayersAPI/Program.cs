@@ -78,6 +78,19 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Read", policy =>
+        policy.RequireRole("Visitor", "Editor", "Admin"));
+
+    options.AddPolicy("Write", policy =>
+        policy.RequireRole("Editor", "Admin"));
+
+    options.AddPolicy("Delete", policy =>
+        policy.RequireRole("Admin"));
+});
+
+
 #endregion
 
 #region Logging avec Serilog
@@ -165,6 +178,7 @@ builder.Services.AddScoped<IPlayersService, PlayersService>();
 
 #endregion
 
+
 var app = builder.Build();
 
 #region Pipeline HTTP (middlewares)
@@ -183,11 +197,7 @@ app.UseCors("AllowAll");
 
 // Swagger UI (accessible à la racine : http://localhost:5000)
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tennis Player API v1");
-    c.RoutePrefix = string.Empty;
-});
+app.UseSwaggerUI();
 
 // Routing ASP.NET Core
 app.UseRouting();

@@ -1,4 +1,6 @@
-﻿namespace TennisPlayersAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TennisPlayersAPI.Models
 {
     /// <summary>
     /// Class Player
@@ -13,11 +15,13 @@
         /// <summary>
         /// Prénom de joueur
         /// </summary>
+        [Required, MaxLength(50)]
         public required string FirstName { get; set; }
 
         /// <summary>
         /// Nom de joueur
         /// </summary>
+        [Required, MaxLength(50)]
         public required string LastName { get; set; }
 
         /// <summary>
@@ -33,6 +37,7 @@
         /// <summary>
         /// Pays de joueur
         /// </summary>
+        [Required]
         public required Country Country { get; set; }
 
         /// <summary>

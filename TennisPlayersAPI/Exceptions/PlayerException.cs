@@ -34,6 +34,7 @@ namespace TennisPlayersAPI.Exceptions
         public static PlayerException NoPlayersFound() =>
             new(PlayerErrorType.NotFound, "Aucun joueur n’a pu être chargé depuis la source de données.");
 
+        //En supprimant ce contrôle, aucun message explicite n’informera l’utilisateur lorsqu’il n’a pas les droits nécessaires.
         public static PlayerException AccessDenied() =>
             new(PlayerErrorType.Forbidden, "Accès refusé : vous n’avez pas les droits suffisants pour effectuer cette action.");
     }

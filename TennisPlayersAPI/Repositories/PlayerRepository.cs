@@ -27,26 +27,26 @@ namespace TennisPlayersAPI.Repositories
         /// Retourner tous les joueurs de tennis
         /// </summary>
         /// <returns>Liste des joueurs</returns>
-        public IEnumerable<Player> GetAll() => _root.Players;
+        public Task<IEnumerable<Player>> GetAllAsync() => Task.FromResult(_root.Players.AsEnumerable());
+
 
         /// <summary>
         /// Trouver un joueur de tennis par son identifiant
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Le joueur trouvé</returns>
-        public Player GetById(int id) => _root.Players.FirstOrDefault(p => p.Id == id);
+        public Task<Player?> GetByIdAsync(int id) => Task.FromResult(_root.Players.FirstOrDefault(p => p.Id == id));
 
         /// <summary>
         /// Ajouter un joueur de tennis dans la liste des joueurs
         /// </summary>
         /// <param name="player">Objet joueur</param>
         /// <returns>Le joueur ajouté</returns>
-        public Player Add(Player player)
+        public Task<Player> AddAsync(Player player)
         {
             player.Id = _root.Players.Max(p => p.Id) + 1;
             _root.Players.Add(player);
-            Save();
-            return player;
+            return Task.FromResult(player);
         }
 
         /// <summary>
@@ -55,15 +55,13 @@ namespace TennisPlayersAPI.Repositories
         /// <param name="id">Identifiant de joueur à modifier</param>
         /// <param name="newPlayer">le nouveau joueur rempplacé</param>
         /// <returns>Le joueur modifié</returns>
-        public Player Update(int id, Player newPlayer)
+        public Task<Player> UpdateAsync(Player player)
         {
-            var player = _root.Players.FirstOrDefault(p => p.Id == id);
-            if (player == null) return null;
-
-            newPlayer.Id = id;
-            _root.Players[_root.Players.IndexOf(player)] = newPlayer;
-            Save();
-            return newPlayer;
+            var existing = _root.Players.FirstOrDefault(p => p.Id == player.Id);
+            if (existing is null) throw new KeyNotFoundException("Player not found");
+            _root.Players.Remove(existing);
+            _root.Players.Add(player);
+            return Task.FromResult(player);
         }
 
         /// <summary>
@@ -71,25 +69,13 @@ namespace TennisPlayersAPI.Repositories
         /// </summary>
         /// <param name="id">Identifiant de joueur de tennis</param>
         /// <returns>bool: False ou True</returns>
-        public bool Delete(int id)
+        public Task DeleteAsync(int id)
         {
             var player = _root.Players.FirstOrDefault(p => p.Id == id);
-            if (player == null) return false;
-
-            _root.Players.Remove(player);
-            Save();
-            return true;
+            if (player is not null) _root.Players.Remove(player);
+            return Task.CompletedTask;
         }
-        /// <summary>
-        /// Une méthode privée pour gérer le sauvegarde de fichier
-        /// </summary>
-        /// <param name="id">Identifiant de joueur de tennis</param>
-        /// <returns>bool: False ou True</returns>
-        private void Save()
-        {
-            string json = JsonSerializer.Serialize(_root, new JsonSerializerOptions { WriteIndented = true });
-            _fileSystem.WriteAllText(_filePath, json);
-        }
+      
     }
 
 }
