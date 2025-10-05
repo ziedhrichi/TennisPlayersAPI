@@ -1,6 +1,7 @@
-﻿using TennisPlayersAPI.Models;
+﻿
+using TennisPlayers.Domain.Entities;
 
-namespace TennisPlayersAPI.Repositories
+namespace TennisPlayers.Application.Contracts
 {
     public interface IPlayerRepository
     {

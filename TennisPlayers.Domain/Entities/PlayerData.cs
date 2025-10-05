@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace TennisPlayersAPI.Models
+namespace TennisPlayers.Domain.Entities
 {
     public class PlayerData
     {

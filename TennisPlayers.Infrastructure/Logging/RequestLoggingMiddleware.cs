@@ -1,4 +1,8 @@
-﻿namespace TennisPlayersAPI.Logs
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Serilog;
+
+namespace TennisPlayers.Infrastructure.Logging
 {
     public class RequestLoggingMiddleware
     {

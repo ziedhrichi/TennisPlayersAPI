@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TennisPlayersAPI.Models
+namespace TennisPlayers.Domain.Entities
 {
     /// <summary>
     /// Class Player

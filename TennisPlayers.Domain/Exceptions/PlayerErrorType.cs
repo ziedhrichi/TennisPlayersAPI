@@ -1,4 +1,4 @@
-﻿namespace TennisPlayersAPI.Exceptions
+﻿namespace TennisPlayers.Domain.Exceptions
 {
     public enum PlayerErrorType
     {

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using TennisPlayersAPI.Data;
-using TennisPlayersAPI.Models;
+using TennisPlayers.Domain.Entities;
 
-namespace TennisPlayersAPI.Repositories
+
+namespace TennisPlayers.Infrastructure.Persistence
 {
     /// <summary>
     /// Classe est chargé d’accéder aux données des joueurs.

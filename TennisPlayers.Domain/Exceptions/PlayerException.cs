@@ -1,6 +1,6 @@
-﻿using static TennisPlayersAPI.Controllers.TennisPlayersController;
-
-namespace TennisPlayersAPI.Exceptions
+﻿
+namespace TennisPlayers.Domain.Exceptions
+{
 {
     public class PlayerException : Exception
     {

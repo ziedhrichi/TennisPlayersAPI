@@ -1,9 +1,8 @@
-﻿using System.Numerics;
-using TennisPlayersAPI.Exceptions;
-using TennisPlayersAPI.Models;
-using TennisPlayersAPI.Repositories;
+﻿using TennisPlayers.Application.Contracts;
+using TennisPlayers.Domain.Entities;
+using TennisPlayers.Domain.Exceptions;
 
-namespace TennisPlayersAPI.Services
+namespace TennisPlayers.Application.Services
 {
     /// <summary>
     /// Service applicatif chargé de la gestion et du traitement des joueurs.

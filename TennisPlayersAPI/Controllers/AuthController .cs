@@ -4,9 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TennisPlayersAPI.Models;
+using TennisPlayers.Domain.Entities;
 
-namespace TennisPlayersAPI.Controllers
+namespace TennisPlayers.API.Controllers
 {
     /// <summary>
     /// Class controlleur pour gérer les roles des utilisateurs

@@ -1,4 +1,4 @@
-﻿namespace TennisPlayersAPI.Models
+﻿namespace TennisPlayers.Domain.Entities
 {
     public class StatisticsResult
     {

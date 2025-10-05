@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TennisPlayersAPI\TennisPlayersAPI.csproj" />
+    <ProjectReference Include="..\TennisPlayersAPI\TennisPlayers.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

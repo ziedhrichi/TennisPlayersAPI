@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using TennisPlayers.Domain.Exceptions;
 
-namespace TennisPlayersAPI.Exceptions
+namespace TennisPlayers.Infrastructure.Exceptions
 {
     /// <summary>
     /// Une classe de middleware pour gérer les exceptions dans l'api
@@ -87,7 +88,6 @@ namespace TennisPlayersAPI.Exceptions
                 playerId = ex.PlayerId
             };
 
-            context.Response.Clear();
             context.Response.StatusCode = (int)statusCode;
             context.Response.ContentType = "application/json; charset=utf-8";
 

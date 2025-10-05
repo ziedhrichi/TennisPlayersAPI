@@ -1,6 +1,7 @@
-﻿using TennisPlayersAPI.Models;
+﻿
+using TennisPlayers.Domain.Entities;
 
-namespace TennisPlayersAPI.Services
+namespace TennisPlayers.Application.Contracts
 {
     public interface IPlayersService
     {

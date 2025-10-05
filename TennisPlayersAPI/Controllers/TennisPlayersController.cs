@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
-using TennisPlayersAPI.Models;
-using TennisPlayersAPI.Services;
+using TennisPlayers.Application.Contracts;
+using TennisPlayers.Domain.Entities;
 
 namespace TennisPlayersAPI.Controllers
 {

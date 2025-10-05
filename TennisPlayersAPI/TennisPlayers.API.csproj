@@ -31,13 +31,15 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Data\Players.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   
 <ItemGroup>
   <InternalsVisibleTo Include="TennisPlayersAPI.UnitTests" />
+</ItemGroup>
+  
+<ItemGroup>
+  <ProjectReference Include="..\TennisPlayers.Application\TennisPlayers.Application.csproj" />
+  <ProjectReference Include="..\TennisPlayers.Domain\TennisPlayers.Domain.csproj" />
 </ItemGroup>
 
 </Project>
