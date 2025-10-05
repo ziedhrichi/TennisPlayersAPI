@@ -1,6 +1,6 @@
 ﻿namespace TennisPlayers.Infrastructure.Persistence
 {
-    internal class RealFileSystem : IFileSystem
+    public class RealFileSystem : IFileSystem
     {
         /// <summary>
         /// Lecture d'un json file

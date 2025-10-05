@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Json;
+using System.Net;
 using System.Text.Json;
 using TennisPlayers.Domain.Exceptions;
 
-namespace TennisPlayers.Infrastructure.Exceptions
+namespace TennisPlayers.API
 {
     /// <summary>
     /// Une classe de middleware pour gérer les exceptions dans l'api

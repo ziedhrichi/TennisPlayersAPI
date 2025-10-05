@@ -9,7 +9,7 @@ namespace TennisPlayers.Application.Services
     /// Cette classe implémente IPlayersService et encapsule 
     /// la logique métier liée aux joueurs
     /// </summary>
-    internal class PlayersService : IPlayersService
+    public class PlayersService : IPlayersService
     {
         private readonly IPlayerRepository _repo;
 

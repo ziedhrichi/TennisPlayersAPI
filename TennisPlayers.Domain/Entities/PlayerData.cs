@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Xunit;
-using Xunit.Sdk;
 
 namespace TennisPlayers.Domain.Entities
 {

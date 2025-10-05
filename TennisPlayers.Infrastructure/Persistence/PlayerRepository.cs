@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using TennisPlayers.Application.Contracts;
 using TennisPlayers.Domain.Entities;
 
 
@@ -7,11 +8,11 @@ namespace TennisPlayers.Infrastructure.Persistence
     /// <summary>
     /// Classe est chargé d’accéder aux données des joueurs.
     /// </summary>
-    internal class PlayerRepository : IPlayerRepository
+    public class PlayerRepository : IPlayerRepository
     {
         private readonly Root _root;
         private readonly IFileSystem _fileSystem;
-        private readonly string _filePath = "Data/Players.json";
+        private readonly string _filePath = "../TennisPlayers.Infrastructure/Persistence/Players.json";
 
         public PlayerRepository(IFileSystem fileSystem)
         {

@@ -40,6 +40,7 @@
 <ItemGroup>
   <ProjectReference Include="..\TennisPlayers.Application\TennisPlayers.Application.csproj" />
   <ProjectReference Include="..\TennisPlayers.Domain\TennisPlayers.Domain.csproj" />
+  <ProjectReference Include="..\TennisPlayers.Infrastructure\TennisPlayers.Infrastructure.csproj" />
 </ItemGroup>
 
 </Project>

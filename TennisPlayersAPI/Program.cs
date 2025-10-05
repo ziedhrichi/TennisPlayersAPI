@@ -5,11 +5,11 @@ using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TennisPlayersAPI.Data;
-using TennisPlayersAPI.Exceptions;
-using TennisPlayersAPI.Logs;
-using TennisPlayersAPI.Repositories;
-using TennisPlayersAPI.Services;
+using TennisPlayers.API;
+using TennisPlayers.Application.Contracts;
+using TennisPlayers.Application.Services;
+using TennisPlayers.Infrastructure.Logging;
+using TennisPlayers.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

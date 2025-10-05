@@ -1,7 +1,7 @@
 ﻿
 namespace TennisPlayers.Domain.Exceptions
 {
-{
+
     public class PlayerException : Exception
     {
         public PlayerErrorType ErrorType { get; }
