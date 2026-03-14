@@ -1,0 +1,1 @@
+export const environment = { production: true, apiUrl: 'https://tennis-player-api-fqh6hhgjd7exegeu.francecentral-01.azurewebsites.net' };
